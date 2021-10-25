@@ -1,14 +1,16 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Initialize_Applications" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Initialize_Applications" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
+    <x:Property Name="out_dt_Birthdays" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="out_dt_UpcomingBirthdays" Type="OutArgument(sd:DataTable)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1148,831</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1148,1342</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <sco:Collection x:TypeArguments="x:String">
+    <scg:List x:TypeArguments="x:String" Capacity="33">
       <x:String>System.Activities.XamlIntegration</x:String>
       <x:String>System.Activities.Validation</x:String>
       <x:String>System.Activities</x:String>
@@ -37,10 +39,15 @@
       <x:String>UiPath.Excel</x:String>
       <x:String>UiPath.Excel.Activities</x:String>
       <x:String>System.Collections</x:String>
-    </sco:Collection>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Reflection</x:String>
+      <x:String>System.Runtime.InteropServices</x:String>
+    </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <sco:Collection x:TypeArguments="AssemblyReference">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="29">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -69,21 +76,28 @@
       <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
       <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
       <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
-    </sco:Collection>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+    </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="376,352" sap2010:WorkflowViewState.IdRef="Sequence_9">
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="621,1277" sap2010:WorkflowViewState.IdRef="Sequence_9">
     <Sequence.Variables>
-      <Variable x:TypeArguments="x:String" Name="BirthdayListPath">
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Name="BirthdayListPath">
         <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BirthdayList_Path&quot;).ToString" />
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BirthdayList_Path&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)" />
         </Variable.Default>
       </Variable>
-      <Variable x:TypeArguments="x:String" Name="BirthdayListRange">
+      <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_Range&quot;).ToString]" Name="BirthdayListRange" />
+      <Variable x:TypeArguments="x:String" Name="BirthdayListSheetName">
         <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BirthdayList_Range&quot;).ToString" />
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BirthdayList_SheetName&quot;).ToString" />
         </Variable.Default>
       </Variable>
+      <Variable x:TypeArguments="x:Int32" Name="UpcomingBirthdayRange">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="CInt(in_Config(&quot;UpcomingBirthdayRange&quot;))" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:Boolean" Name="BirthdayListExist" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -91,7 +105,30 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:LogMessage DisplayName="Log message (Initialize applications)" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Trace" Message="[&quot;Opening applications...&quot;]" />
-    <ui:ReadRange DataTable="{x:Null}" AddHeaders="True" DisplayName="Read Range" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="ReadRange_1" Range="[BirthdayListRange]" SheetName="Sheet1" WorkbookPath="[BirthdayListPath]" />
+    <ui:LogMessage DisplayName="Log message (Initialize applications)" sap:VirtualizedContainerService.HintSize="579,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Initializing process...&quot;]" />
+    <ui:PathExists DisplayName="Path Exists - Birthday List" Exists="[BirthdayListExist]" sap:VirtualizedContainerService.HintSize="579,89" sap2010:WorkflowViewState.IdRef="PathExists_2" Path="[BirthdayListPath]" PathType="File" />
+    <If Condition="[BirthdayListExist]" DisplayName="If Birthday Excel not found" sap:VirtualizedContainerService.HintSize="579,239" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[String.Format(&quot;Reading excel file: {0}&quot;, Path.GetFileName(BirthdayListPath))]" />
+      </If.Then>
+      <If.Else>
+        <Throw DisplayName="Throw SE" Exception="[New Exception(in_Config(&quot;Exception_BirthdayListNotExist&quot;).ToString)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_1" />
+      </If.Else>
+    </If>
+    <ui:ReadRange AddHeaders="True" DataTable="[out_dt_Birthdays]" DisplayName="Read Range - Birthdays" sap:VirtualizedContainerService.HintSize="579,87" sap2010:WorkflowViewState.IdRef="ReadRange_1" PreserveFormat="True" Range="[BirthdayListRange]" SheetName="[BirthdayListSheetName]" WorkbookPath="[BirthdayListPath]" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="579,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[String.Format(&quot;Filtering datatable within {0} days&quot;, UpcomingBirthdayRange.ToString)]" />
+    <Assign sap2010:Annotation.AnnotationText="1. x(&quot;Birthday&quot;) IsNot Nothing&#xD;&#xA;-&gt; filter rows that have value in birthday column&#xD;&#xA;&#xD;&#xA;2. Microsoft.VisualBasic.Information.IsDate(x(&quot;Birthday&quot;).ToString)&#xD;&#xA;-&gt; filter rows that are in date format for birthday column&#xD;&#xA;&#xD;&#xA;3. DateDiff(DateInterval.Day,CDate(Now.ToShortDateString.Replace(Now.Year.ToString, (CDate(x(&quot;Birthday&quot;)).Year).ToString)), CDate(x(&quot;Birthday&quot;)))&#xD;&#xA;-&gt; Get the difference of 2 dates in number of days Where:&#xD;&#xA;Date1 = Current date&#xD;&#xA;Date2 = Future date" DisplayName="Assign out_dt_UpcomingBirthdays" sap:VirtualizedContainerService.HintSize="579,357" sap2010:WorkflowViewState.IdRef="Assign_1">
+      <Assign.To>
+        <OutArgument x:TypeArguments="sd:DataTable">[out_dt_UpcomingBirthdays]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="sd:DataTable">[out_dt_Birthdays.AsEnumerable().Where( Function(x) x("Birthday") IsNot Nothing AndAlso Microsoft.VisualBasic.Information.IsDate(x("Birthday").ToString) AndAlso (DateDiff(DateInterval.Day,CDate(Now.ToShortDateString.Replace(Now.Year.ToString, (CDate(x("Birthday")).Year).ToString)), CDate(x("Birthday"))) &gt;= 0 AND DateDiff(DateInterval.Day,CDate(Now.ToShortDateString.Replace(Now.Year.ToString, (CDate(x("Birthday")).Year).ToString)), CDate(x("Birthday"))) &lt;= UpcomingBirthdayRange ) ).CopyToDataTable]</InArgument>
+      </Assign.Value>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </Assign>
   </Sequence>
 </Activity>

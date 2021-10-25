@@ -1,16 +1,17 @@
 {
-  "name": "GetUpcomingBirthdays",
-  "description": "Getting of upcoming birthdays in an excel spreadsheet. This process creates a new excel file per birthday celebrant that will be upcoming in X weeks from the date today. The content of the file will be their team members.",
+  "name": "CET_BirthdayGreetings",
+  "description": "",
   "main": "Main.xaml",
   "dependencies": {
     "UiPath.Excel.Activities": "[2.9.5]",
+    "UiPath.Mail.Activities": "[1.9.6]",
     "UiPath.System.Activities": "[20.10.4]",
-    "UiPath.UIAutomation.Activities": "[20.10.9]"
+    "UiPath.UIAutomation.Activities": "[20.10.10]"
   },
   "webServices": [],
   "entitiesStores": [],
   "schemaVersion": "4.0",
-  "studioVersion": "20.10.6.0",
+  "studioVersion": "20.10.8.0",
   "projectVersion": "1.0.0",
   "runtimeOptions": {
     "autoDispose": false,
@@ -42,7 +43,7 @@
   "entryPoints": [
     {
       "filePath": "Main.xaml",
-      "uniqueId": "7db9828c-c24d-4765-a409-c06b4f171f44",
+      "uniqueId": "0c053e8c-c2e8-4cc5-a55e-8152d35e7e8c",
       "input": [],
       "output": []
     }
