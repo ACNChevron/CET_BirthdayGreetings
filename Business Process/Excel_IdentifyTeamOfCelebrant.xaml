@@ -2,10 +2,11 @@
   <x:Members>
     <x:Property Name="in_IncludedTeam" Type="InArgument(x:String)" />
     <x:Property Name="in_dt_MasterList" Type="InArgument(sd:DataTable)" />
-    <x:Property Name="in_CelebrantTeam" Type="InArgument(x:String)" />
-    <x:Property Name="in_EID" Type="InArgument(x:String)" />
     <x:Property Name="in_Filename" Type="InArgument(x:String)" />
     <x:Property Name="in_Filepath" Type="InArgument(x:String)" />
+    <x:Property Name="out_dt_TeamMembers" Type="OutArgument(sd:DataTable)" />
+    <x:Property Name="in_CelebrantTeam" Type="InArgument(x:String)" />
+    <x:Property Name="in_EID" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -81,9 +82,6 @@
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Sequence sap2010:Annotation.AnnotationText="Description: Identifies the birthday celebrant's team members plus the management team, then creates an excel file for each upcoming birthday celebrant.&#xD;&#xA;&#xD;&#xA;Pre-condition: Master list of employees&#xD;&#xA;&#xD;&#xA;Post-condition: Created an excel file for each upcoming birthday celebrant with the details of team members plus management.&#xD;&#xA;" DisplayName="Excel_IdentifyTeamOfCelebrant" sap:VirtualizedContainerService.HintSize="480,943" sap2010:WorkflowViewState.IdRef="Sequence_1">
-    <Sequence.Variables>
-      <Variable x:TypeArguments="sd:DataTable" Name="dt_TeamMembers" />
-    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -95,7 +93,7 @@
       <TryCatch.Try>
         <Assign DisplayName="Assign dt_TeamMembers" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_1">
           <Assign.To>
-            <OutArgument x:TypeArguments="sd:DataTable">[dt_TeamMembers]</OutArgument>
+            <OutArgument x:TypeArguments="sd:DataTable">[out_dt_TeamMembers]</OutArgument>
           </Assign.To>
           <Assign.Value>
             <InArgument x:TypeArguments="sd:DataTable">[in_dt_MasterList.AsEnumerable().Where( Function(x) x("EID") IsNot in_EID AndAlso (x("Team").Equals(in_CelebrantTeam) OR x("Team").Equals(in_IncludedTeam)) ).CopyToDataTable]</InArgument>
@@ -128,6 +126,6 @@
       </TryCatch.Catches>
     </TryCatch>
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="438,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[&quot;Generating excel file: &quot; + in_Filename]" />
-    <ui:WriteRange AddHeaders="True" DataTable="[dt_TeamMembers]" DisplayName="Write Range - Team Members" sap:VirtualizedContainerService.HintSize="438,115" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Sheet1" StartingCell="A1" WorkbookPath="[in_Filepath]" />
+    <ui:WriteRange AddHeaders="True" DataTable="[out_dt_TeamMembers]" DisplayName="Write Range - Team Members" sap:VirtualizedContainerService.HintSize="438,115" sap2010:WorkflowViewState.IdRef="WriteRange_1" SheetName="Sheet1" StartingCell="A1" WorkbookPath="[in_Filepath]" />
   </Sequence>
 </Activity>
