@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1148,2190</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1148,2363</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="33">
@@ -79,24 +79,12 @@
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,2125" sap2010:WorkflowViewState.IdRef="Sequence_9">
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,2298" sap2010:WorkflowViewState.IdRef="Sequence_9">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_Range&quot;).ToString]" Name="BirthdayListRange" />
-      <Variable x:TypeArguments="x:String" Name="BirthdayListSheetName">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BirthdayList_SheetName&quot;).ToString" />
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:Int32" Name="UpcomingBirthdayRange">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="CInt(in_Config(&quot;UpcomingBirthday_Range&quot;))" />
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Name="BirthdayListPath">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BirthdayList_Path&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)" />
-        </Variable.Default>
-      </Variable>
+      <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_SheetName&quot;).ToString]" Name="BirthdayListSheetName" />
+      <Variable x:TypeArguments="x:Int32" Default="[CInt(in_Config(&quot;UpcomingBirthday_Range&quot;))]" Name="UpcomingBirthdayRange" />
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;BirthdayList_Path&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="BirthdayListPath" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -107,11 +95,7 @@
     <ui:LogMessage DisplayName="Log message (Initialize applications)" sap:VirtualizedContainerService.HintSize="797,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Initializing process...&quot;]" />
     <Sequence DisplayName="Initialize Output Folder" sap:VirtualizedContainerService.HintSize="797,671" sap2010:WorkflowViewState.IdRef="Sequence_20">
       <Sequence.Variables>
-        <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Name="UpcomingBirthdayOutputFolder">
-          <Variable.Default>
-            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)" />
-          </Variable.Default>
-        </Variable>
+        <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="UpcomingBirthdayOutputFolder" />
         <Variable x:TypeArguments="x:Boolean" Name="OutputFolderExist" />
       </Sequence.Variables>
       <sap:WorkflowViewStateService.ViewState>
@@ -157,9 +141,25 @@
         </If.Else>
       </If>
     </Sequence>
-    <ui:ReadRange AddHeaders="True" DataTable="[out_dt_Birthdays]" DisplayName="Read Range - Birthdays" sap:VirtualizedContainerService.HintSize="797,87" sap2010:WorkflowViewState.IdRef="ReadRange_1" PreserveFormat="True" Range="[BirthdayListRange]" SheetName="[BirthdayListSheetName]" WorkbookPath="[BirthdayListPath]" />
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="797,260" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[BirthdayListPath]">
+      <ui:ExcelApplicationScope.Body>
+        <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,151" sap2010:WorkflowViewState.IdRef="Sequence_23">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:ExcelReadRange AddHeaders="True" DataTable="[out_dt_Birthdays]" DisplayName="Read Range - Birthdays" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" PreserveFormat="True" Range="[BirthdayListRange]" SheetName="[BirthdayListSheetName]" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ExcelApplicationScope.Body>
+    </ui:ExcelApplicationScope>
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="797,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[String.Format(&quot;Filtering datatable within {0} days&quot;, UpcomingBirthdayRange.ToString)]" />
-    <Assign sap2010:Annotation.AnnotationText="1. x(&quot;Birthday&quot;) IsNot Nothing&#xD;&#xA;-&gt; filter rows that have value in birthday column&#xD;&#xA;&#xD;&#xA;2. Microsoft.VisualBasic.Information.IsDate(x(&quot;Birthday&quot;).ToString)&#xD;&#xA;-&gt; filter rows that are in date format for birthday column&#xD;&#xA;&#xD;&#xA;3. DateDiff(DateInterval.Day,CDate(Now.ToShortDateString.Replace(Now.Year.ToString, (CDate(x(&quot;Birthday&quot;)).Year).ToString)), CDate(x(&quot;Birthday&quot;)))&#xD;&#xA;-&gt; Get the difference of 2 dates in number of days Where:&#xD;&#xA;Date1 = Current date&#xD;&#xA;Date2 = Future date&#xD;&#xA;&#xD;&#xA;Note: Throws an error if date today is leap year" DisplayName="Assign out_dt_UpcomingBirthdays" sap:VirtualizedContainerService.HintSize="797,402" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap2010:Annotation.AnnotationText="1. x(&quot;Birthday&quot;) IsNot Nothing&#xA;-&gt; filter rows that have value in birthday column&#xA;&#xA;2. Microsoft.VisualBasic.Information.IsDate(x(&quot;Birthday&quot;).ToString)&#xA;-&gt; filter rows that are in date format for birthday column&#xA;&#xA;3. DateDiff(DateInterval.Day,CDate(Now.ToShortDateString.Replace(Now.Year.ToString, (CDate(x(&quot;Birthday&quot;)).Year).ToString)), CDate(x(&quot;Birthday&quot;)))&#xA;-&gt; Get the difference of 2 dates in number of days Where:&#xA;Date1 = Current date&#xA;Date2 = Future date&#xA;&#xA;Note: Throws an error if date today is leap year" DisplayName="Assign out_dt_UpcomingBirthdays" sap:VirtualizedContainerService.HintSize="797,402" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="sd:DataTable">[out_dt_UpcomingBirthdays]</OutArgument>
       </Assign.To>
