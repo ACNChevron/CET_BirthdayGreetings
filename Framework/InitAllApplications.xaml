@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1148,2363</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1208,2627</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="33">
@@ -79,7 +79,7 @@
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,2298" sap2010:WorkflowViewState.IdRef="Sequence_9">
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,2562" sap2010:WorkflowViewState.IdRef="Sequence_9">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_Range&quot;).ToString]" Name="BirthdayListRange" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_SheetName&quot;).ToString]" Name="BirthdayListSheetName" />
@@ -93,7 +93,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log message (Initialize applications)" sap:VirtualizedContainerService.HintSize="797,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Initializing process...&quot;]" />
-    <Sequence DisplayName="Initialize Output Folder" sap:VirtualizedContainerService.HintSize="797,671" sap2010:WorkflowViewState.IdRef="Sequence_20">
+    <Sequence DisplayName="Initialize Output Folder" sap:VirtualizedContainerService.HintSize="797,681" sap2010:WorkflowViewState.IdRef="Sequence_20">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="UpcomingBirthdayOutputFolder" />
         <Variable x:TypeArguments="x:Boolean" Name="OutputFolderExist" />
@@ -104,7 +104,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <ui:PathExists DisplayName="Path Exists - Output Folder" Exists="[OutputFolderExist]" sap:VirtualizedContainerService.HintSize="755,89" sap2010:WorkflowViewState.IdRef="PathExists_3" Path="[UpcomingBirthdayOutputFolder]" PathType="Folder" />
-      <If Condition="[OutputFolderExist]" DisplayName="If Output Folder exists" sap:VirtualizedContainerService.HintSize="755,450" sap2010:WorkflowViewState.IdRef="If_2">
+      <If Condition="[OutputFolderExist]" DisplayName="If Output Folder exists" sap:VirtualizedContainerService.HintSize="755,460" sap2010:WorkflowViewState.IdRef="If_2">
         <If.Then>
           <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_5" Level="Trace" Message="[&quot;Output folder exists&quot;]" />
         </If.Then>
@@ -121,7 +121,7 @@
         </If.Else>
       </If>
     </Sequence>
-    <Sequence DisplayName="Birthday List Exist" sap:VirtualizedContainerService.HintSize="797,460" sap2010:WorkflowViewState.IdRef="Sequence_21">
+    <Sequence DisplayName="Birthday List Exist" sap:VirtualizedContainerService.HintSize="797,470" sap2010:WorkflowViewState.IdRef="Sequence_21">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:Boolean" Name="BirthdayListExist" />
       </Sequence.Variables>
@@ -132,7 +132,7 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
       <ui:PathExists DisplayName="File Exists - Birthday List" Exists="[BirthdayListExist]" sap:VirtualizedContainerService.HintSize="579,89" sap2010:WorkflowViewState.IdRef="PathExists_2" Path="[BirthdayListPath]" PathType="File" />
-      <If Condition="[BirthdayListExist]" DisplayName="If Birthday Excel exists" sap:VirtualizedContainerService.HintSize="579,239" sap2010:WorkflowViewState.IdRef="If_1">
+      <If Condition="[BirthdayListExist]" DisplayName="If Birthday Excel exists" sap:VirtualizedContainerService.HintSize="579,249" sap2010:WorkflowViewState.IdRef="If_1">
         <If.Then>
           <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_4" Level="Info" Message="[String.Format(&quot;Reading excel file: {0}&quot;, Path.GetFileName(BirthdayListPath))]" />
         </If.Then>
@@ -141,18 +141,25 @@
         </If.Else>
       </If>
     </Sequence>
-    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="797,260" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[BirthdayListPath]">
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="797,504" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[BirthdayListPath]">
       <ui:ExcelApplicationScope.Body>
         <ActivityAction x:TypeArguments="ui:WorkbookApplication">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,151" sap2010:WorkflowViewState.IdRef="Sequence_23">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,395" sap2010:WorkflowViewState.IdRef="Sequence_23">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
+            <ui:InvokeVBA OutputValue="{x:Null}" sap2010:Annotation.AnnotationText="If you encounter an error stating &quot;programmatic access to visual basic project is not trusted&quot;, open the excel file and follow below:&#xA;&#xA;File -&gt; Options -&gt; Trust Center -&gt; Trust Center Setttings -&gt; Macro Settings -&gt; Trust Access to the VBA Project object model" CodeFilePath="Resources\refreshQuery.vbs" DisplayName="Invoke VBA - Refresh Query" EntryMethodName="RefreshAll" sap:VirtualizedContainerService.HintSize="334,204" sap2010:WorkflowViewState.IdRef="InvokeVBA_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:InvokeVBA>
             <ui:ExcelReadRange AddHeaders="True" DataTable="[out_dt_Birthdays]" DisplayName="Read Range - Birthdays" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" PreserveFormat="True" Range="[BirthdayListRange]" SheetName="[BirthdayListSheetName]" />
           </Sequence>
         </ActivityAction>
