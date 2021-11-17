@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1148,831</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1208,827</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="29">
@@ -87,16 +87,8 @@
       <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Team&quot;))).ToString]" Name="CelebrantTeam" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;UpcomingBirthday_IncludeTeam&quot;).ToString]" Name="IncludedTeam" />
       <Variable x:TypeArguments="sd:DataTable" Name="dt_TeamMembers" />
-      <Variable x:TypeArguments="x:String" Name="Subject">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_Subject&quot;).ToString" />
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:String" Name="Body">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;Email_Body&quot;).ToString" />
-        </Variable.Default>
-      </Variable>
+      <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;Email_Subject&quot;).ToString]" Name="Subject" />
+      <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;Email_Body&quot;).ToString]" Name="Body" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -150,19 +142,16 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_EID">
           <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EID" />
         </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_UpcomingBirthday_MandatoryEIDGetAll">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;UpcomingBirthday_MandatoryEIDGetAll&quot;).ToString" />
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_SendEmailToRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Business Process\Email_SendEmailToRecipients.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Subject" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Body">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Body" />
-        </InArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">
-          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_TeamMembers" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">[Subject]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Body">[Body]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">[dt_TeamMembers]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>
