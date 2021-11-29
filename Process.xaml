@@ -7,10 +7,10 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1208,827</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1033,827</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
-    <scg:List x:TypeArguments="x:String" Capacity="29">
+    <scg:List x:TypeArguments="x:String" Capacity="58">
       <x:String>System.Activities</x:String>
       <x:String>System.Activities.Statements</x:String>
       <x:String>System.Activities.Expressions</x:String>
@@ -40,6 +40,7 @@
       <x:String>System.Collections.ObjectModel</x:String>
       <x:String>System.Activities.DynamicUpdate</x:String>
       <x:String>System.Runtime.InteropServices</x:String>
+      <x:String>System.Reflection</x:String>
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -89,6 +90,11 @@
       <Variable x:TypeArguments="sd:DataTable" Name="dt_TeamMembers" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;Email_Subject&quot;).ToString]" Name="Subject" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;Email_Body&quot;).ToString]" Name="Body" />
+      <Variable x:TypeArguments="x:String" Name="ResourceName">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_ResourceName&quot;))).ToString" />
+        </Variable.Default>
+      </Variable>
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -121,37 +127,30 @@
     </ui:MultipleAssign>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke IdentifyTeamOfCelebrant workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="Business Process\Excel_IdentifyTeamOfCelebrant.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_IncludedTeam">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="IncludedTeam" />
-        </InArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_MasterList">
-          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="in_dt_MasterList" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Filename">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Filename" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Filepath">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Filepath" />
-        </InArgument>
-        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_TeamMembers">
-          <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="dt_TeamMembers" />
-        </OutArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_CelebrantTeam">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="CelebrantTeam" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_EID">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EID" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_UpcomingBirthday_MandatoryEIDGetAll">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;UpcomingBirthday_MandatoryEIDGetAll&quot;).ToString" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_IncludedTeam">[IncludedTeam]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_MasterList">[in_dt_MasterList]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Filename">[Filename]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Filepath">[Filepath]</InArgument>
+        <OutArgument x:TypeArguments="sd:DataTable" x:Key="out_dt_TeamMembers">[dt_TeamMembers]</OutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_CelebrantTeam">[CelebrantTeam]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EID">[EID]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_UpcomingBirthday_MandatoryEIDGetAll">[in_Config("UpcomingBirthday_MandatoryEIDGetAll").ToString]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_SendEmailToRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Business Process\Email_SendEmailToRecipients.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">[Subject]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Body">[Body]</InArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">[dt_TeamMembers]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Subject" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Body">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Body" />
+        </InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">
+          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_TeamMembers" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="ResourceName" />
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>
