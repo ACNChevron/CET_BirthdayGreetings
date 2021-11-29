@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1033,827</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1033,787</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="58">
@@ -82,7 +82,7 @@
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="UpcomingBirthdayOutputFolder" />
       <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_EID&quot;))).ToString]" Name="EID" />
-      <Variable x:TypeArguments="x:String" Default="[CDate(in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Birthday&quot;)))).ToString(&quot;MMddyyyy&quot;)]" Name="Birthdate" />
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="birthdate format is MMddyyyy" Default="[CDate(in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Birthday&quot;)))).ToString(&quot;MMddyyyy&quot;)]" Name="Birthdate" />
       <Variable x:TypeArguments="x:String" Name="Filename" />
       <Variable x:TypeArguments="x:String" Name="Filepath" />
       <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Team&quot;))).ToString]" Name="CelebrantTeam" />
@@ -93,6 +93,11 @@
       <Variable x:TypeArguments="x:String" Name="ResourceName">
         <Variable.Default>
           <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_ResourceName&quot;))).ToString" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="birthdate format is MMMM dd" Name="BirthdateLongString">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="CDate(in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Birthday&quot;)))).ToString(&quot;MMMM dd&quot;)" />
         </Variable.Default>
       </Variable>
     </Sequence.Variables>
@@ -150,6 +155,9 @@
         </InArgument>
         <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">
           <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="ResourceName" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="BirthdateLongString" />
         </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
