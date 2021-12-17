@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Initialize_Applications" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Initialize_Applications" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="out_dt_Birthdays" Type="OutArgument(sd:DataTable)" />
@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1033,2797</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>897,4180</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="33">
@@ -47,7 +47,7 @@
     </scg:List>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
-    <scg:List x:TypeArguments="AssemblyReference" Capacity="58">
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="32">
       <AssemblyReference>System.Activities</AssemblyReference>
       <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
       <AssemblyReference>mscorlib</AssemblyReference>
@@ -78,15 +78,24 @@
       <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
       <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,2732" sap2010:WorkflowViewState.IdRef="Sequence_9">
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,4115" sap2010:WorkflowViewState.IdRef="Sequence_9">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_Range&quot;).ToString]" Name="BirthdayListRange" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_SheetName&quot;).ToString]" Name="BirthdayListSheetName" />
       <Variable x:TypeArguments="x:Int32" Default="[CInt(in_Config(&quot;UpcomingBirthday_Range&quot;))]" Name="UpcomingBirthdayRange" />
       <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;BirthdayList_Path&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="BirthdayListPath" />
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Name="UpcomingBirthdayOutputFolder">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="scg:List(x:String)" Name="list_SentToBdayTeams" />
+      <Variable x:TypeArguments="x:String" Name="CurrentYear" />
+      <Variable x:TypeArguments="x:String" Name="UpcomingBirthdayYearFolder" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -95,9 +104,8 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log message (Initialize applications)" sap:VirtualizedContainerService.HintSize="797,91" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Initializing process...&quot;]" />
-    <Sequence DisplayName="Initialize Output Folder" sap:VirtualizedContainerService.HintSize="797,681" sap2010:WorkflowViewState.IdRef="Sequence_20">
+    <Sequence DisplayName="Initialize Output Folder" sap:VirtualizedContainerService.HintSize="797,850" sap2010:WorkflowViewState.IdRef="Sequence_20">
       <Sequence.Variables>
-        <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="UpcomingBirthdayOutputFolder" />
         <Variable x:TypeArguments="x:Boolean" Name="OutputFolderExist" />
       </Sequence.Variables>
       <sap:WorkflowViewStateService.ViewState>
@@ -105,6 +113,28 @@
           <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
+      <ui:MultipleAssign DisplayName="Multiple Assign" sap:VirtualizedContainerService.HintSize="755,129" sap2010:WorkflowViewState.IdRef="MultipleAssign_2">
+        <ui:MultipleAssign.AssignOperations>
+          <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:String">[CurrentYear]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:String">[Date.Today.ToString("yyyy")]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+            <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+              <ui:AssignOperation.To>
+                <OutArgument x:TypeArguments="x:String">[UpcomingBirthdayYearFolder]</OutArgument>
+              </ui:AssignOperation.To>
+              <ui:AssignOperation.Value>
+                <InArgument x:TypeArguments="x:String">[UpcomingBirthdayOutputFolder + "\" + CurrentYear]</InArgument>
+              </ui:AssignOperation.Value>
+            </ui:AssignOperation>
+          </scg:List>
+        </ui:MultipleAssign.AssignOperations>
+      </ui:MultipleAssign>
       <ui:PathExists DisplayName="Path Exists - Output Folder" Exists="[OutputFolderExist]" sap:VirtualizedContainerService.HintSize="755,89" sap2010:WorkflowViewState.IdRef="PathExists_3" Path="[UpcomingBirthdayOutputFolder]" PathType="Folder" />
       <If Condition="[OutputFolderExist]" DisplayName="If Output Folder exists" sap:VirtualizedContainerService.HintSize="755,460" sap2010:WorkflowViewState.IdRef="If_2">
         <If.Then>
@@ -123,13 +153,13 @@
         </If.Else>
       </If>
     </Sequence>
-    <Sequence DisplayName="Birthday List Exist" sap:VirtualizedContainerService.HintSize="797,470" sap2010:WorkflowViewState.IdRef="Sequence_21">
+    <Sequence DisplayName="Birthday List Exist" sap:VirtualizedContainerService.HintSize="797,66" sap2010:WorkflowViewState.IdRef="Sequence_21">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:Boolean" Name="BirthdayListExist" />
       </Sequence.Variables>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
@@ -143,43 +173,38 @@
         </If.Else>
       </If>
     </Sequence>
-    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="797,674" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[BirthdayListPath]">
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="797,51" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[BirthdayListPath]">
       <ui:ExcelApplicationScope.Body>
         <ActivityAction x:TypeArguments="ui:WorkbookApplication">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="478,565" sap2010:WorkflowViewState.IdRef="Sequence_23">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,395" sap2010:WorkflowViewState.IdRef="Sequence_23">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="436,374" sap2010:WorkflowViewState.IdRef="CommentOut_1">
-              <ui:CommentOut.Body>
-                <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="376,296" sap2010:WorkflowViewState.IdRef="Sequence_24">
-                  <sap:WorkflowViewStateService.ViewState>
-                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
-                    </scg:Dictionary>
-                  </sap:WorkflowViewStateService.ViewState>
-                  <ui:InvokeVBA OutputValue="{x:Null}" sap2010:Annotation.AnnotationText="If you encounter an error stating &quot;programmatic access to visual basic project is not trusted&quot;, open the excel file and follow below:&#xA;&#xA;File -&gt; Options -&gt; Trust Center -&gt; Trust Center Setttings -&gt; Macro Settings -&gt; Trust Access to the VBA Project object model" CodeFilePath="Resources\refreshQuery.vbs" DisplayName="Invoke VBA - Refresh Query" EntryMethodName="RefreshAll" sap:VirtualizedContainerService.HintSize="334,204" sap2010:WorkflowViewState.IdRef="InvokeVBA_1">
-                    <sap:WorkflowViewStateService.ViewState>
-                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
-                      </scg:Dictionary>
-                    </sap:WorkflowViewStateService.ViewState>
-                  </ui:InvokeVBA>
-                </Sequence>
-              </ui:CommentOut.Body>
-            </ui:CommentOut>
-            <ui:ExcelReadRange AddHeaders="True" DataTable="[out_dt_Birthdays]" DisplayName="Read Range - Birthdays" sap:VirtualizedContainerService.HintSize="436,59" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" PreserveFormat="True" Range="[BirthdayListRange]" SheetName="[BirthdayListSheetName]" />
+            <ui:InvokeVBA OutputValue="{x:Null}" sap2010:Annotation.AnnotationText="If you encounter an error stating &quot;programmatic access to visual basic project is not trusted&quot;, open the excel file and follow below:&#xA;&#xA;File -&gt; Options -&gt; Trust Center -&gt; Trust Center Setttings -&gt; Macro Settings -&gt; Trust Access to the VBA Project object model" CodeFilePath="Resources\refreshQuery.vbs" DisplayName="Invoke VBA - Refresh Query" EntryMethodName="RefreshAll" sap:VirtualizedContainerService.HintSize="334,204" sap2010:WorkflowViewState.IdRef="InvokeVBA_1">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:InvokeVBA>
+            <ui:ExcelReadRange AddHeaders="True" DataTable="[out_dt_Birthdays]" DisplayName="Read Range - Birthdays" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadRange_1" PreserveFormat="True" Range="[BirthdayListRange]" SheetName="[BirthdayListSheetName]" />
           </Sequence>
         </ActivityAction>
       </ui:ExcelApplicationScope.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
     </ui:ExcelApplicationScope>
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="797,91" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[String.Format(&quot;Filtering datatable within {0} days&quot;, UpcomingBirthdayRange.ToString)]" />
-    <Assign sap2010:Annotation.AnnotationText="1. x(&quot;Birthday&quot;) IsNot Nothing&#xA;-&gt; filter rows that have value in birthday column&#xA;&#xA;2. Microsoft.VisualBasic.Information.IsDate(x(&quot;Birthday&quot;).ToString)&#xA;-&gt; filter rows that are in date format for birthday column&#xA;&#xA;3. DateDiff(DateInterval.Day,CDate(Now.ToShortDateString.Replace(Now.Year.ToString, (CDate(x(&quot;Birthday&quot;)).Year).ToString)), CDate(x(&quot;Birthday&quot;)))&#xA;-&gt; Get the difference of 2 dates in number of days Where:&#xA;Date1 = Current date&#xA;Date2 = Future date&#xA;&#xA;Note: Throws an error if date today is leap year" DisplayName="Assign out_dt_UpcomingBirthdays" sap:VirtualizedContainerService.HintSize="797,402" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <Assign sap2010:Annotation.AnnotationText="1. x(&quot;Birthday&quot;) IsNot Nothing&#xA;-&gt; filter rows that have value in birthday column&#xA;&#xA;2. Microsoft.VisualBasic.Information.IsDate(x(&quot;Birthday&quot;).ToString)&#xA;-&gt; filter rows that are in date format for birthday column&#xA;&#xA;3. DateDiff(DateInterval.Day,CDate(Now.ToShortDateString.Replace(Now.Year.ToString, (CDate(x(&quot;Birthday&quot;)).Year).ToString)), CDate(x(&quot;Birthday&quot;)))&#xA;-&gt; Get the difference of 2 dates in number of days Where:&#xA;Date1 = Current date&#xA;Date2 = Future date&#xA;&#xA;Note: Throws an error if date today is leap year date" DisplayName="Assign out_dt_UpcomingBirthdays 1" sap:VirtualizedContainerService.HintSize="797,402" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="sd:DataTable">[out_dt_UpcomingBirthdays]</OutArgument>
       </Assign.To>
@@ -192,5 +217,151 @@
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
     </Assign>
+    <Sequence sap2010:Annotation.AnnotationText="Filter out sent email for greetings to upcoming celebrants" DisplayName="Get all filenames in sent folder" sap:VirtualizedContainerService.HintSize="797,1341" sap2010:WorkflowViewState.IdRef="Sequence_29">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:Boolean" Name="isSentFolderExists" />
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484,91" sap2010:WorkflowViewState.IdRef="LogMessage_11" Level="Trace" Message="[&quot;Getting all filenames in sent folder...&quot;]" />
+      <Assign DisplayName="Assign list_SentToBdayTeams" sap:VirtualizedContainerService.HintSize="484,60" sap2010:WorkflowViewState.IdRef="Assign_12">
+        <Assign.To>
+          <OutArgument x:TypeArguments="scg:List(x:String)">[list_SentToBdayTeams]</OutArgument>
+        </Assign.To>
+        <Assign.Value>
+          <InArgument x:TypeArguments="scg:List(x:String)">[New List(Of String)]</InArgument>
+        </Assign.Value>
+      </Assign>
+      <ui:PathExists DisplayName="Path Exists" Exists="[isSentFolderExists]" sap:VirtualizedContainerService.HintSize="484,89" sap2010:WorkflowViewState.IdRef="PathExists_4" Path="[UpcomingBirthdayYearFolder]" PathType="Folder" />
+      <If Condition="[isSentFolderExists]" DisplayName="If Sent Folder Exists" sap:VirtualizedContainerService.HintSize="484,727" sap2010:WorkflowViewState.IdRef="If_3">
+        <If.Then>
+          <Sequence sap:VirtualizedContainerService.HintSize="382,540" sap2010:WorkflowViewState.IdRef="Sequence_25">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="s:String[]" Name="arr_Filenames" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <Assign DisplayName="Assign arr_Filenames" sap:VirtualizedContainerService.HintSize="340,60" sap2010:WorkflowViewState.IdRef="Assign_2">
+              <Assign.To>
+                <OutArgument x:TypeArguments="s:String[]">[arr_Filenames]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="s:String[]">[Directory.GetFiles(UpcomingBirthdayYearFolder)]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each Filenames" sap:VirtualizedContainerService.HintSize="340,348" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[arr_Filenames]">
+              <ui:ForEach.Body>
+                <ActivityAction x:TypeArguments="x:String">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="x:String" Name="filename" />
+                  </ActivityAction.Argument>
+                  <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="304,214" sap2010:WorkflowViewState.IdRef="Sequence_24">
+                    <Sequence.Variables>
+                      <Variable x:TypeArguments="x:String" Name="filepath" />
+                    </Sequence.Variables>
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                    <Assign sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_10">
+                      <Assign.To>
+                        <OutArgument x:TypeArguments="x:String">[filepath]</OutArgument>
+                      </Assign.To>
+                      <Assign.Value>
+                        <InArgument x:TypeArguments="x:String">[(path.GetFileNameWithoutExtension(filename)).Substring(0,path.GetFileNameWithoutExtension(filename).Length-9)]</InArgument>
+                      </Assign.Value>
+                    </Assign>
+                    <AddToCollection x:TypeArguments="x:String" Collection="[list_SentToBdayTeams]" DisplayName="Add To Collection - sent bday greeting" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1" Item="[filepath]" />
+                  </Sequence>
+                </ActivityAction>
+              </ui:ForEach.Body>
+            </ui:ForEach>
+          </Sequence>
+        </If.Then>
+        <If.Else>
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_26">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Sequence>
+        </If.Else>
+      </If>
+      <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="484,91" sap2010:WorkflowViewState.IdRef="LogMessage_7" Level="Info" Message="[&quot;Sent Birthday greetings previously to: &quot; + String.Join(&quot;;&quot;, list_SentToBdayTeams)]" />
+    </Sequence>
+    <Sequence sap2010:Annotation.AnnotationText="Filter out sent email for greetings to upcoming celebrants" DisplayName="Finalize TransactionData" sap:VirtualizedContainerService.HintSize="797,820" sap2010:WorkflowViewState.IdRef="Sequence_28">
+      <Sequence.Variables>
+        <Variable x:TypeArguments="x:String" Name="BirthdayList_EIDColumn">
+          <Variable.Default>
+            <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;BirthdayList_Index_EID&quot;).ToString" />
+          </Variable.Default>
+        </Variable>
+      </Sequence.Variables>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If Condition="[list_SentToBdayTeams.Count &gt;= 1]" sap:VirtualizedContainerService.HintSize="516,697" sap2010:WorkflowViewState.IdRef="If_4">
+        <If.Then>
+          <Sequence sap:VirtualizedContainerService.HintSize="480,510" sap2010:WorkflowViewState.IdRef="Sequence_31">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="438,91" sap2010:WorkflowViewState.IdRef="LogMessage_8" Level="Info" Message="[&quot;Finalizing data... Removing previously sent bday greetings...&quot;]" />
+            <TryCatch DisplayName="Try Catch Finalize TransactionData" sap:VirtualizedContainerService.HintSize="438,287" sap2010:WorkflowViewState.IdRef="TryCatch_1">
+              <TryCatch.Try>
+                <Assign DisplayName="Assign out_dt_UpcomingBirthdays 2" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_7">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="sd:DataTable">[out_dt_UpcomingBirthdays]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="sd:DataTable">[out_dt_UpcomingBirthdays.AsEnumerable.Where( Function(x) not list_SentToBdayTeams.Contains(x(Cint(BirthdayList_EIDColumn)).ToString) ).CopyToDataTable]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </TryCatch.Try>
+              <TryCatch.Catches>
+                <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="404,21" sap2010:WorkflowViewState.IdRef="Catch`1_1">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                      <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ActivityAction x:TypeArguments="s:Exception">
+                    <ActivityAction.Argument>
+                      <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                    </ActivityAction.Argument>
+                    <Throw DisplayName="Throw BRE" Exception="[New BusinessRuleException(&quot;Birthdays within 14 days was already sent an email&quot;)]" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Throw_2" />
+                  </ActivityAction>
+                </Catch>
+              </TryCatch.Catches>
+            </TryCatch>
+          </Sequence>
+        </If.Then>
+        <If.Else>
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_32">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </Sequence>
+        </If.Else>
+      </If>
+    </Sequence>
   </Sequence>
 </Activity>

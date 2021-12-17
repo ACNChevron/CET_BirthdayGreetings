@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1033,787</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>897,818</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="58">
@@ -78,7 +78,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="421,722" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="421,753" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="UpcomingBirthdayOutputFolder" />
       <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_EID&quot;))).ToString]" Name="EID" />
@@ -90,16 +90,9 @@
       <Variable x:TypeArguments="sd:DataTable" Name="dt_TeamMembers" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;Email_Subject&quot;).ToString]" Name="Subject" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;Email_Body&quot;).ToString]" Name="Body" />
-      <Variable x:TypeArguments="x:String" Name="ResourceName">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_ResourceName&quot;))).ToString" />
-        </Variable.Default>
-      </Variable>
-      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="birthdate format is MMMM dd" Name="BirthdateLongString">
-        <Variable.Default>
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="CDate(in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Birthday&quot;)))).ToString(&quot;MMMM dd&quot;)" />
-        </Variable.Default>
-      </Variable>
+      <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_ResourceName&quot;))).ToString]" Name="ResourceName" />
+      <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="birthdate format is MMMM dd" Default="[CDate(in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Birthday&quot;)))).ToString(&quot;MMMM dd&quot;)]" Name="BirthdateLongString" />
+      <Variable x:TypeArguments="x:String" Name="CurrentYear" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -108,7 +101,7 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:Comment DisplayName="Comment (placeholder)" sap:VirtualizedContainerService.HintSize="379,55" sap2010:WorkflowViewState.IdRef="Comment_1" Text="//  Invoke steps of the process" />
-    <ui:MultipleAssign DisplayName="Initialize variables" sap:VirtualizedContainerService.HintSize="379,129" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
+    <ui:MultipleAssign DisplayName="Initialize variables" sap:VirtualizedContainerService.HintSize="379,160" sap2010:WorkflowViewState.IdRef="MultipleAssign_1">
       <ui:MultipleAssign.AssignOperations>
         <scg:List x:TypeArguments="ui:AssignOperation" Capacity="4">
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_3">
@@ -119,12 +112,20 @@
               <InArgument x:TypeArguments="x:String">[EID + "_" + Birthdate]</InArgument>
             </ui:AssignOperation.Value>
           </ui:AssignOperation>
+          <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_5">
+            <ui:AssignOperation.To>
+              <OutArgument x:TypeArguments="x:String">[CurrentYear]</OutArgument>
+            </ui:AssignOperation.To>
+            <ui:AssignOperation.Value>
+              <InArgument x:TypeArguments="x:String">[Date.Today.ToString("yyyy")]</InArgument>
+            </ui:AssignOperation.Value>
+          </ui:AssignOperation>
           <ui:AssignOperation sap2010:WorkflowViewState.IdRef="AssignOperation_4">
             <ui:AssignOperation.To>
               <OutArgument x:TypeArguments="x:String">[Filepath]</OutArgument>
             </ui:AssignOperation.To>
             <ui:AssignOperation.Value>
-              <InArgument x:TypeArguments="x:String">[String.Format("{0}\{1}.xlsx",UpcomingBirthdayOutputFolder,Filename)]</InArgument>
+              <InArgument x:TypeArguments="x:String">[String.Format("{0}\{1}\{2}.xlsx",UpcomingBirthdayOutputFolder,CurrentYear,Filename)]</InArgument>
             </ui:AssignOperation.Value>
           </ui:AssignOperation>
         </scg:List>
@@ -144,21 +145,11 @@
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_SendEmailToRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Business Process\Email_SendEmailToRecipients.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Subject" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Body">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Body" />
-        </InArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">
-          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_TeamMembers" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="ResourceName" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="BirthdateLongString" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">[Subject]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Body">[Body]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">[dt_TeamMembers]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">[ResourceName]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">[BirthdateLongString]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
   </Sequence>
