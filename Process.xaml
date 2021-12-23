@@ -94,6 +94,11 @@
       <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_ResourceName&quot;))).ToString]" Name="ResourceName" />
       <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="birthdate format is MMMM dd" Default="[CDate(in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Birthday&quot;)))).ToString(&quot;MMMM dd&quot;)]" Name="BirthdateLongString" />
       <Variable x:TypeArguments="x:String" Name="CurrentYear" />
+      <Variable x:TypeArguments="x:String" Name="Nickname">
+        <Variable.Default>
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_Nickname&quot;))).ToString" />
+        </Variable.Default>
+      </Variable>
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -169,11 +174,21 @@
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_SendEmailToRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Business Process\Email_SendEmailToRecipients.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">[Subject]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Body">[Body]</InArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">[dt_TeamMembers]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">[ResourceName]</InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">[BirthdateLongString]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Subject" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Body">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Body" />
+        </InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">
+          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_TeamMembers" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Nickname" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="BirthdateLongString" />
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:Comment sap:VirtualizedContainerService.HintSize="379,132" sap2010:WorkflowViewState.IdRef="Comment_3" Text="Send email - Modify the ff:&#xD;&#xA;&#xD;&#xA;1. Email subject&#xD;&#xA;2. Email Recipients&#xD;&#xA;3. Email body" />
