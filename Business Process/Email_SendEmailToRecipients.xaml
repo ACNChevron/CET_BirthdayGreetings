@@ -9,7 +9,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1033,1049</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>897,1180</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Email_SendEmailToRecipients_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="54">
@@ -79,7 +79,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Description: Sending of email to celebrant's team members plus management&#xA;&#xA;Pre-condition: datatable of celebrant's team members plus management&#xA;&#xA;Post-condition: Email is sent to the celebrant's team members plus management." DisplayName="Email_SendEmailToRecipients" sap:VirtualizedContainerService.HintSize="376,984" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Description: Sending of email to celebrant's team members plus management&#xA;&#xA;Pre-condition: datatable of celebrant's team members plus management&#xA;&#xA;Post-condition: Email is sent to the celebrant's team members plus management." DisplayName="Email_SendEmailToRecipients" sap:VirtualizedContainerService.HintSize="376,1115" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:List(x:String)" Name="list_Recipients" />
       <Variable x:TypeArguments="x:String" Name="FormattedToRecipients" />
@@ -138,5 +138,6 @@
         <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
       </ui:SendOutlookMail.Files>
     </ui:SendOutlookMail>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,91" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;Email sent to celebrant's team members.&quot;]" />
   </Sequence>
 </Activity>

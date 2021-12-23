@@ -7,7 +7,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>897,4180</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>897,5037</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Initialization_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="33">
@@ -82,7 +82,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,4115" sap2010:WorkflowViewState.IdRef="Sequence_9">
+  <Sequence sap2010:Annotation.AnnotationText="Open applications used in the process and do necessary initialization procedures (e.g., login)." DisplayName="Initialize All Applications" sap:VirtualizedContainerService.HintSize="839,4972" sap2010:WorkflowViewState.IdRef="Sequence_9">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_Range&quot;).ToString]" Name="BirthdayListRange" />
       <Variable x:TypeArguments="x:String" Default="[in_Config(&quot;BirthdayList_SheetName&quot;).ToString]" Name="BirthdayListSheetName" />
@@ -153,13 +153,13 @@
         </If.Else>
       </If>
     </Sequence>
-    <Sequence DisplayName="Birthday List Exist" sap:VirtualizedContainerService.HintSize="797,66" sap2010:WorkflowViewState.IdRef="Sequence_21">
+    <Sequence DisplayName="Birthday List Exist" sap:VirtualizedContainerService.HintSize="797,470" sap2010:WorkflowViewState.IdRef="Sequence_21">
       <Sequence.Variables>
         <Variable x:TypeArguments="x:Boolean" Name="BirthdayListExist" />
       </Sequence.Variables>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
@@ -173,7 +173,7 @@
         </If.Else>
       </If>
     </Sequence>
-    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="797,51" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[BirthdayListPath]">
+    <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel Application Scope" sap:VirtualizedContainerService.HintSize="797,504" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_1" InstanceCachePeriod="3000" WorkbookPath="[BirthdayListPath]">
       <ui:ExcelApplicationScope.Body>
         <ActivityAction x:TypeArguments="ui:WorkbookApplication">
           <ActivityAction.Argument>
@@ -198,7 +198,7 @@
       </ui:ExcelApplicationScope.Body>
       <sap:WorkflowViewStateService.ViewState>
         <scg:Dictionary x:TypeArguments="x:String, x:Object">
-          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
@@ -313,7 +313,7 @@
           <x:Boolean x:Key="IsPinned">False</x:Boolean>
         </scg:Dictionary>
       </sap:WorkflowViewStateService.ViewState>
-      <If Condition="[list_SentToBdayTeams.Count &gt;= 1]" sap:VirtualizedContainerService.HintSize="516,697" sap2010:WorkflowViewState.IdRef="If_4">
+      <If Condition="[list_SentToBdayTeams.Count &gt;= 1]" DisplayName="If an email was already sent for the same resource" sap:VirtualizedContainerService.HintSize="516,697" sap2010:WorkflowViewState.IdRef="If_4">
         <If.Then>
           <Sequence sap:VirtualizedContainerService.HintSize="480,510" sap2010:WorkflowViewState.IdRef="Sequence_31">
             <sap:WorkflowViewStateService.ViewState>

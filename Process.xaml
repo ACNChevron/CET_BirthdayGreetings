@@ -3,11 +3,12 @@
     <x:Property sap2010:Annotation.AnnotationText="Transaction item to be processed." Name="in_TransactionItem" Type="InArgument(sd:DataRow)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="in_Config" Type="InArgument(scg:Dictionary(x:String, x:Object))" />
     <x:Property Name="in_dt_MasterList" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="io_dt_ConsolidateForResource" Type="InOutArgument(sd:DataTable)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>897,818</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>897,1256</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="58">
@@ -78,7 +79,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="421,753" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="421,1191" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="UpcomingBirthdayOutputFolder" />
       <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_EID&quot;))).ToString]" Name="EID" />
@@ -143,6 +144,29 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_UpcomingBirthday_MandatoryEIDGetAll">[in_Config("UpcomingBirthday_MandatoryEIDGetAll").ToString]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
+    <ui:Comment sap:VirtualizedContainerService.HintSize="379,74" sap2010:WorkflowViewState.IdRef="Comment_2" Text="1. Remove special resources&#xD;&#xA;2. Add to list" />
+    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_OrganizeRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Business Process\Email_OrganizeRecipients.xaml">
+      <ui:InvokeWorkflowFile.Arguments>
+        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_ConsolidateForResource">
+          <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="io_dt_ConsolidateForResource" />
+        </InOutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ConsolidateEmailEachResource">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="in_Config(&quot;ConsolidateEmailEachResource&quot;).ToString" />
+        </InArgument>
+        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_TeamMembers">
+          <mva:VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="dt_TeamMembers" />
+        </InOutArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="ResourceName" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="BirthdateLongString" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_EID">
+          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EID" />
+        </InArgument>
+      </ui:InvokeWorkflowFile.Arguments>
+    </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_SendEmailToRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Business Process\Email_SendEmailToRecipients.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="in_Subject">[Subject]</InArgument>
@@ -152,5 +176,6 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">[BirthdateLongString]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
+    <ui:Comment sap:VirtualizedContainerService.HintSize="379,132" sap2010:WorkflowViewState.IdRef="Comment_3" Text="Send email - Modify the ff:&#xD;&#xA;&#xD;&#xA;1. Email subject&#xD;&#xA;2. Email Recipients&#xD;&#xA;3. Email body" />
   </Sequence>
 </Activity>
