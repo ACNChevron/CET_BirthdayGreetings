@@ -8,7 +8,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>897,1256</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>897,970</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>ProcessTransaction_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="58">
@@ -79,7 +79,7 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="421,1191" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Invoke major steps of the business process, which are usually implemented by multiple subworkflows.&#xA;&#xA;If a BusinessRuleException is thrown, the transaction is skipped. &#xA;If another kind of exception occurs, the current transaction can be retried. " DisplayName="Process" sap:VirtualizedContainerService.HintSize="421,905" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="x:String" sap2010:Annotation.AnnotationText="Replaces the &quot;UserProfile&quot; text with Environment.Username" Default="[in_Config(&quot;UpcomingBirthday_OutputFolder&quot;).ToString.Replace(&quot;{{UserProfile}}&quot;, Environment.UserName)]" Name="UpcomingBirthdayOutputFolder" />
       <Variable x:TypeArguments="x:String" Default="[in_TransactionItem(Cint(in_Config(&quot;BirthdayList_Index_EID&quot;))).ToString]" Name="EID" />
@@ -144,7 +144,6 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_UpcomingBirthday_MandatoryEIDGetAll">[in_Config("UpcomingBirthday_MandatoryEIDGetAll").ToString]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <ui:Comment sap:VirtualizedContainerService.HintSize="379,74" sap2010:WorkflowViewState.IdRef="Comment_2" Text="1. Remove special resources&#xD;&#xA;2. Add to list" />
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_OrganizeRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="Business Process\Email_OrganizeRecipients.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InOutArgument x:TypeArguments="sd:DataTable" x:Key="io_dt_ConsolidateForResource">
@@ -165,27 +164,19 @@
         <InArgument x:TypeArguments="x:String" x:Key="in_EID">
           <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="EID" />
         </InArgument>
+        <InArgument x:TypeArguments="x:Int32" x:Key="in_TimeoutShort">
+          <mva:VisualBasicValue x:TypeArguments="x:Int32" ExpressionText="Cint(in_Config(&quot;TimeoutShort&quot;))" />
+        </InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
     <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke Email_SendEmailToRecipients workflow" sap:VirtualizedContainerService.HintSize="379,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_2" UnSafe="False" WorkflowFileName="Business Process\Email_SendEmailToRecipients.xaml">
       <ui:InvokeWorkflowFile.Arguments>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Subject" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Body">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="Body" />
-        </InArgument>
-        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">
-          <mva:VisualBasicValue x:TypeArguments="sd:DataTable" ExpressionText="dt_TeamMembers" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="ResourceName" />
-        </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">
-          <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="BirthdateLongString" />
-        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Subject">[Subject]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Body">[Body]</InArgument>
+        <InArgument x:TypeArguments="sd:DataTable" x:Key="in_dt_TeamMembers">[dt_TeamMembers]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_ResourceName">[ResourceName]</InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="in_Birthdate">[BirthdateLongString]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
-    <ui:Comment sap:VirtualizedContainerService.HintSize="379,132" sap2010:WorkflowViewState.IdRef="Comment_3" Text="Send email - Modify the ff:&#xD;&#xA;&#xD;&#xA;1. Email subject&#xD;&#xA;2. Email Recipients&#xD;&#xA;3. Email body" />
   </Sequence>
 </Activity>

@@ -8,7 +8,7 @@
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>999,2159</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>999,2364</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>Email_ConsolidateToResource_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="56">
@@ -72,20 +72,19 @@
       <AssemblyReference>UiPath.Excel</AssemblyReference>
       <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
       <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>UiPath.Mail.Activities</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="Description:  Composition of email to the specific resources 1 by 1&#xD;&#xA;&#xD;&#xA;Pre-condition: All TransactionData has been processed&#xD;&#xA;&#xD;&#xA;Post-condition: Email was sent 1 by 1 to each specific resources" DisplayName="Email_ConsolidateToResource" sap:VirtualizedContainerService.HintSize="1009,2094" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="Description:  Composition of email to the specific resources 1 by 1&#xA;&#xA;Pre-condition: All TransactionData has been processed&#xA;&#xA;Post-condition: Email was sent 1 by 1 to each specific resources" DisplayName="Email_ConsolidateToResource" sap:VirtualizedContainerService.HintSize="1009,2299" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <If Condition="[in_dt_ConsolidateForResource.Rows.Count &gt;= 1]" DisplayName="If in_dt_ConsolidateForResource has atleast 1 row" sap:VirtualizedContainerService.HintSize="967,1915" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[in_dt_ConsolidateForResource.Rows.Count &gt;= 1]" DisplayName="If in_dt_ConsolidateForResource has atleast 1 row" sap:VirtualizedContainerService.HintSize="967,2120" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
-        <Sequence sap:VirtualizedContainerService.HintSize="546,1757" sap2010:WorkflowViewState.IdRef="Sequence_3">
+        <Sequence sap:VirtualizedContainerService.HintSize="546,1962" sap2010:WorkflowViewState.IdRef="Sequence_3">
           <Sequence.Variables>
             <Variable x:TypeArguments="scg:List(x:String)" Name="list_ConsolidateEmailEachResource" />
           </Sequence.Variables>
@@ -103,13 +102,13 @@
               <InArgument x:TypeArguments="scg:List(x:String)">[in_ConsolidateEmailEachResource.Split(";"c).ToList()]</InArgument>
             </Assign.Value>
           </Assign>
-          <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each specific resource" sap:VirtualizedContainerService.HintSize="504,1434" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[list_ConsolidateEmailEachResource]">
+          <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each specific resource" sap:VirtualizedContainerService.HintSize="504,1639" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[list_ConsolidateEmailEachResource]">
             <ui:ForEach.Body>
               <ActivityAction x:TypeArguments="x:String">
                 <ActivityAction.Argument>
                   <DelegateInArgument x:TypeArguments="x:String" Name="resource" />
                 </ActivityAction.Argument>
-                <Sequence DisplayName="ForEach Body" sap:VirtualizedContainerService.HintSize="468,1300" sap2010:WorkflowViewState.IdRef="Sequence_5">
+                <Sequence DisplayName="ForEach Body" sap:VirtualizedContainerService.HintSize="468,1505" sap2010:WorkflowViewState.IdRef="Sequence_5">
                   <Sequence.Variables>
                     <Variable x:TypeArguments="sd:DataTable" Name="dt_ConsolidateEmailEachResource" />
                     <Variable x:TypeArguments="x:String" Name="UpcomingBirthdays" />
@@ -135,13 +134,13 @@
                       <InArgument x:TypeArguments="x:String">[String.Empty]</InArgument>
                     </Assign.Value>
                   </Assign>
-                  <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dt_ConsolidateEmailEachResource]" DisplayName="For Each Row - in_dt_ConsolidateForResource" sap:VirtualizedContainerService.HintSize="426,500" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+                  <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[dt_ConsolidateEmailEachResource]" DisplayName="For Each Row - in_dt_ConsolidateForResource" sap:VirtualizedContainerService.HintSize="426,705" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
                     <ui:ForEachRow.Body>
                       <ActivityAction x:TypeArguments="sd:DataRow">
                         <ActivityAction.Argument>
                           <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
                         </ActivityAction.Argument>
-                        <Sequence DisplayName="ForEachRow Body" sap:VirtualizedContainerService.HintSize="376,352" sap2010:WorkflowViewState.IdRef="Sequence_2">
+                        <Sequence DisplayName="ForEachRow Body" sap:VirtualizedContainerService.HintSize="376,557" sap2010:WorkflowViewState.IdRef="Sequence_2">
                           <Sequence.Variables>
                             <Variable x:TypeArguments="x:String" Name="ResourceName" />
                             <Variable x:TypeArguments="x:String" Name="SharepointURL" />
@@ -182,6 +181,32 @@
                               </scg:List>
                             </ui:MultipleAssign.AssignOperations>
                           </ui:MultipleAssign>
+                          <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="334,51" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+                            <ui:CommentOut.Body>
+                              <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="304,152" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                                <Assign DisplayName="Assign UpcomingBirthdays" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_6">
+                                  <Assign.To>
+                                    <OutArgument x:TypeArguments="x:String">[UpcomingBirthdays]</OutArgument>
+                                  </Assign.To>
+                                  <Assign.Value>
+                                    <InArgument x:TypeArguments="x:String">[UpcomingBirthdays + String.Format("{0} ({1}){3}", ResourceName, ResourceBirthday, SharepointURL, "&lt;br&gt;")]</InArgument>
+                                  </Assign.Value>
+                                </Assign>
+                              </Sequence>
+                            </ui:CommentOut.Body>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:CommentOut>
+                          <ui:Comment sap:VirtualizedContainerService.HintSize="334,74" sap2010:WorkflowViewState.IdRef="Comment_1" Text="placeholder while creation of sharepoint item is not yet implemented in this version" />
                           <Assign DisplayName="Assign UpcomingBirthdays" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_3">
                             <Assign.To>
                               <OutArgument x:TypeArguments="x:String">[UpcomingBirthdays]</OutArgument>
